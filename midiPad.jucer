@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="S8I6X0" name="midiPad" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              companyName="Parseq" pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginProducesMidiOut,pluginWantsMidiIn"
+              pluginVST3Category="Fx,Instrument" version="0.9.2" companyWebsite="parseq.ca"
+              companyEmail="av@parseq.ca" pluginFormats="buildVST,buildVST3"
+              pluginVSTCategory="kPlugCategEffect">
+  <MAINGROUP id="f80D5A" name="midiPad">
+    <GROUP id="{5C8F0A0F-4FE5-BDB5-5B1A-EF8DF7D5F4D0}" name="Source">
+      <FILE id="PUfKMx" name="XyPad.cpp" compile="1" resource="0" file="Source/XyPad.cpp"/>
+      <FILE id="WVvk1M" name="XyPad.h" compile="0" resource="0" file="Source/XyPad.h"/>
+      <FILE id="Alt6B6" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="xZbF5n" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="ox1IL8" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="VeMmzi" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <VS2022 targetFolder="Builds/VisualStudio2022">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="midiPad"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="midiPad"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../../Program Files/Projucer/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../../../Program Files/Projucer/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../../../Program Files/Projucer/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../../../../Program Files/Projucer/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../../../Program Files/Projucer/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../../../Program Files/Projucer/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../../../Program Files/Projucer/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../Program Files/Projucer/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../Program Files/Projucer/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../Program Files/Projucer/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../Program Files/Projucer/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../../Program Files/Projucer/modules"/>
+      </MODULEPATHS>
+    </VS2022>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+</JUCERPROJECT>
