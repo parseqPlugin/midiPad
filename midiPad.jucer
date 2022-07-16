@@ -2,8 +2,8 @@
 
 <JUCERPROJECT id="S8I6X0" name="midiPad" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              companyName="Parseq" pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginProducesMidiOut,pluginWantsMidiIn"
-              pluginVST3Category="Fx,Instrument" version="0.9.2" companyWebsite="parseq.ca"
+              companyName="Parseq" pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
+              pluginVST3Category="Fx,Instrument" version="0.9.3" companyWebsite="parseq.ca"
               companyEmail="av@parseq.ca" pluginFormats="buildVST,buildVST3"
               pluginVSTCategory="kPlugCategEffect">
   <MAINGROUP id="f80D5A" name="midiPad">
