@@ -8,4 +8,3 @@ To be be able to modifiy and generate a plugin you need the Juce Framework.
 
 Improvement expected
 - MAC AU or VST version
-- Plugin as a midi effect
