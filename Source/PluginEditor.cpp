@@ -35,13 +35,20 @@ MidiPadAudioProcessorEditor::MidiPadAudioProcessorEditor (MidiPadAudioProcessor&
 	cc3ComboAttachement = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getPluginTreeState(), "CC3", cc3);
 	cc4ComboAttachement = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getPluginTreeState(), "CC4", cc4);
 
+	// Define plugin name
+	addAndMakeVisible(pluginName);
+	pluginName.setColour(juce::Label::ColourIds::textColourId, juce::Colour::fromRGB(108, 108, 108));
+	pluginName.setSize(24, 24);
+	pluginName.setJustificationType(juce::Justification::centred);
+	pluginName.setText("midiPad", juce::NotificationType::dontSendNotification);
+
 	// DEFINE PAD
 	addAndMakeVisible(xyPad);
 
 	// RENDER PLUGIN 
 	setSize (400, 510);
-	//setResizable(true, true);
-	//setResizeLimits(250, 360, 400, 510);
+	setResizable(true, true);
+	setResizeLimits(250, 360, 800, 910);
 
 }
 
@@ -70,52 +77,20 @@ void MidiPadAudioProcessorEditor::resized()
 	const int comboRowHeight = comboHeight + (margin * 2);
 
 
-	// POSITIONNING
+	// Ppsitionning controls
 	cc1.setBounds(margin, margin, comboWidth, comboHeight);
 	cc2.setBounds(panelWidth - comboWidth - margin, margin, comboWidth, comboHeight);
-	
 	xyPad.setBounds(margin, comboRowHeight, panelWidth - (margin * 2), panelHeight - (comboRowHeight * 2));
-	
 	cc3.setBounds(margin, panelHeight - comboHeight - margin, comboWidth, comboHeight);
 	cc4.setBounds(panelWidth - comboWidth - margin, panelHeight - comboHeight - margin, comboWidth, comboHeight);
+
+	// Positionning plgin name
+	pluginName.setBounds(0, margin, panelWidth, comboHeight);
 
 	// Sliders are hidden except when debugging
 	sliderX.setBounds(125, 10, 150, 20);
 	sliderY.setBounds(125, panelHeight - 30, 150, 20);
 }
-
-
-
-//==============================================================================
-// SLIDER PROCESS
-//==============================================================================
-/*
-void MidiPadAudioProcessorEditor::comboBoxChanged(juce::ComboBox* combo)
-{
-	if (combo == &cc1)
-	{
-		if (cc1.getSelectedId() == cc2.getSelectedId() || cc1.getSelectedId() == cc3.getSelectedId() || cc1.getSelectedId() == cc4.getSelectedId())
-			juce::NativeMessageBox::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Control 1", "This Continuous Controler number is already assigned to another control.\n\nIt is recommended to use different value for each of the control.", nullptr, nullptr);
-	}
-	else if (combo == &cc2)
-	{
-		if (cc2.getSelectedId() == cc1.getSelectedId() || cc2.getSelectedId() == cc3.getSelectedId() || cc2.getSelectedId() == cc4.getSelectedId())
-			juce::NativeMessageBox::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Control 2", "This Continuous Controler number is already assigned to another control.\n\nIt is recommended to use different value for each of the control.", nullptr, nullptr);
-	}
-	else if (combo == &cc3)
-	{
-		if (cc3.getSelectedId() == cc1.getSelectedId() || cc3.getSelectedId() == cc2.getSelectedId() || cc3.getSelectedId() == cc4.getSelectedId())
-			juce::NativeMessageBox::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Control 3", "This Continuous Controler number is already assigned to another control.\n\nIt is recommended to use different value for each of the control.", nullptr, nullptr);
-	}
-	else 
-	{
-		if (cc4.getSelectedId() == cc1.getSelectedId() || cc4.getSelectedId() == cc2.getSelectedId() || cc4.getSelectedId() == cc3.getSelectedId())
-			juce::NativeMessageBox::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon, "Control 4", "This Continuous Controler number is already assigned to another control.\n\nIt is recommended to use different value for each of the control.", nullptr, nullptr);
-	}
-
-}
-*/
-
 
 
 

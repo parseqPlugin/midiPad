@@ -9,9 +9,13 @@
 
 MidiPadAudioProcessor::MidiPadAudioProcessor()
      : AudioProcessor (BusesProperties()
-                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                       ), pluginTreeState (*this, nullptr, "pluginParms", createPluginParms())
+            #if ! JucePlugin_IsMidiEffect
+                #if ! JucePlugin_IsSynth
+                         .withInput("Input", juce::AudioChannelSet::stereo(), true)
+                #endif
+                .withOutput("Output", juce::AudioChannelSet::stereo(), true)
+            #endif
+     ), pluginTreeState (*this, nullptr, "pluginParms", createPluginParms())
 {
     pluginTreeState.state.addListener(this);
 }

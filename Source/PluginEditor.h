@@ -46,7 +46,8 @@ public: MidiPadAudioProcessorEditor (MidiPadAudioProcessor&);
 
 
 private:
-    juce::ComboBox cc1, cc2, cc3, cc4;
+	juce::Label pluginName;
+	juce::ComboBox cc1, cc2, cc3, cc4;
 	juce::Slider sliderX, sliderY;
 	Gui::midiPad xyPad;
     
