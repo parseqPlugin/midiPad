@@ -2,10 +2,9 @@
 
 <JUCERPROJECT id="S8I6X0" name="midiPad" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              companyName="Parseq" pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
-              pluginVST3Category="Fx,Instrument" version="0.9.3" companyWebsite="parseq.ca"
-              companyEmail="av@parseq.ca" pluginFormats="buildVST,buildVST3"
-              pluginVSTCategory="kPlugCategEffect">
+              companyName="Parseq" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
+              pluginVST3Category="Instrument" version="0.9.3" companyWebsite="parseq.ca"
+              companyEmail="av@parseq.ca" pluginFormats="buildVST,buildVST3">
   <MAINGROUP id="f80D5A" name="midiPad">
     <GROUP id="{5C8F0A0F-4FE5-BDB5-5B1A-EF8DF7D5F4D0}" name="Source">
       <FILE id="PUfKMx" name="XyPad.cpp" compile="1" resource="0" file="Source/XyPad.cpp"/>
