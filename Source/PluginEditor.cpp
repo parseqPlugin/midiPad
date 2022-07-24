@@ -14,10 +14,10 @@ MidiPadAudioProcessorEditor::MidiPadAudioProcessorEditor (MidiPadAudioProcessor&
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     // DEFINE COMBO TO SELECT CC NUMBER
-	setCombo(cc1, 21);
-	setCombo(cc2, 22);
-	setCombo(cc3, 23);
-	setCombo(cc4, 24);
+	setCombo(cc1);
+	setCombo(cc2);
+	setCombo(cc3);
+	setCombo(cc4);
 
 	// DEFINE SLIDERS (not shown)
 	setSlider(sliderX);
@@ -37,16 +37,15 @@ MidiPadAudioProcessorEditor::MidiPadAudioProcessorEditor (MidiPadAudioProcessor&
 
 	// Define plugin name
 	addAndMakeVisible(pluginName);
-	pluginName.setColour(juce::Label::ColourIds::textColourId, juce::Colour::fromRGB(108, 108, 108));
-	pluginName.setSize(24, 24);
+	pluginName.setColour(juce::Label::ColourIds::textColourId, juce::Colour::fromRGB(116, 116, 116));
 	pluginName.setJustificationType(juce::Justification::centred);
-	pluginName.setText("midiPad", juce::NotificationType::dontSendNotification);
+	pluginName.setText("midiPad 0.9.6", juce::NotificationType::dontSendNotification);
 
 	// DEFINE PAD
 	addAndMakeVisible(xyPad);
 
 	// RENDER PLUGIN 
-	setSize (400, 510);
+	setSize (430, 525);
 	setResizable(true, true);
 	setResizeLimits(250, 360, 800, 910);
 
@@ -70,22 +69,25 @@ void MidiPadAudioProcessorEditor::resized()
 	const auto panelWidth = panel.getWidth();
 	const auto panelHeight = panel.getHeight();
 	
-	const int comboWidth = 80;
-	const int comboHeight = 25;
+	const int marginHeader = 30;
 	const int margin = 15;
 
-	const int comboRowHeight = comboHeight + (margin * 2);
+	const int comboWidth = 80;
+	const int comboHeight = 25;
 
+	const int padTop = marginHeader + comboHeight + margin;
 
-	// Ppsitionning controls
-	cc1.setBounds(margin, margin, comboWidth, comboHeight);
-	cc2.setBounds(panelWidth - comboWidth - margin, margin, comboWidth, comboHeight);
-	xyPad.setBounds(margin, comboRowHeight, panelWidth - (margin * 2), panelHeight - (comboRowHeight * 2));
+	const int labelHeight = 25;
+
+	// Positionning controls
+	cc1.setBounds(margin, marginHeader, comboWidth, comboHeight);
+	cc2.setBounds(panelWidth - comboWidth - margin, marginHeader, comboWidth, comboHeight);
+	xyPad.setBounds(margin, padTop, panelWidth - (margin * 2), panelHeight - comboHeight - (margin * 2) - padTop);
 	cc3.setBounds(margin, panelHeight - comboHeight - margin, comboWidth, comboHeight);
 	cc4.setBounds(panelWidth - comboWidth - margin, panelHeight - comboHeight - margin, comboWidth, comboHeight);
 
 	// Positionning plgin name
-	pluginName.setBounds(0, margin, panelWidth, comboHeight);
+	pluginName.setBounds(0, 5, panelWidth, labelHeight);
 
 	// Sliders are hidden except when debugging
 	sliderX.setBounds(125, 10, 150, 20);

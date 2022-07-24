@@ -32,15 +32,15 @@ public: MidiPadAudioProcessorEditor (MidiPadAudioProcessor&);
 	}
 
 
-	void setCombo(juce::ComboBox& comboBox, int defaultCC)
+	void setCombo(juce::ComboBox& comboBox)
 	{
 		addAndMakeVisible(comboBox);
 		comboBox.setColour(juce::Label::ColourIds::textColourId, juce::Colours::white);
+
 		for (int i = 1; i <= 127; i++)
 		{
 			comboBox.addItem("CC " + std::to_string(i), i);
 		}
-		comboBox.setSelectedId(defaultCC);
 	}
 
 

@@ -13,6 +13,7 @@
 //==============================================================================
 /**
 */
+
 class MidiPadAudioProcessor  :  public juce::AudioProcessor, 
                                 public juce::ValueTree::Listener
 {
@@ -21,6 +22,15 @@ public:
     MidiPadAudioProcessor();
     ~MidiPadAudioProcessor() override;
     
+    /*
+    static BusesProperties getBusesLayout()
+    {
+        // Live doesn't like to load midi-only plugins, so we add an audio output there.
+        return juce::PluginHostType().isAbletonLive() ? BusesProperties().withOutput("out", juce::AudioChannelSet::stereo())
+            : BusesProperties();
+    }
+    */
+
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
@@ -55,7 +65,6 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    void processMidiPad(juce::MidiBuffer& midiMessages);
 
 
     //==============================================================================

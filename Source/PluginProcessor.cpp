@@ -7,15 +7,19 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+
+//==============================================================================
 MidiPadAudioProcessor::MidiPadAudioProcessor()
-     : AudioProcessor (BusesProperties()
+#ifndef JucePlugin_PreferredChannelConfigurations
+    : AudioProcessor(BusesProperties()
             #if ! JucePlugin_IsMidiEffect
                 #if ! JucePlugin_IsSynth
-                         .withInput("Input", juce::AudioChannelSet::stereo(), true)
+                    .withInput("Input", juce::AudioChannelSet::stereo(), true)
                 #endif
                 .withOutput("Output", juce::AudioChannelSet::stereo(), true)
             #endif
-     ), pluginTreeState (*this, nullptr, "pluginParms", createPluginParms())
+                ), pluginTreeState(*this, nullptr, "pluginParms", createPluginParms())
+#endif
 {
     pluginTreeState.state.addListener(this);
 }
@@ -28,64 +32,65 @@ MidiPadAudioProcessor::~MidiPadAudioProcessor() {}
 //========================================================================================================
 // MAIN (AUDIO PROCESSOR FUNCTION MODIFIED OR ADD) 
 
+
+// SENDING DATA ONLY WHEN DRAGGING THE MOUSE
+int currentX = 0;
+int currentY = 0;
+
+
 void MidiPadAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
-{
-    buffer.clear();
-
-    if (pluginUpdated == true)
-    {
-        processMidiPad(midiMessages);
-        pluginUpdated = false;
-    }
-}
-
-void MidiPadAudioProcessor::processMidiPad(juce::MidiBuffer& midiMessages)
 {
     juce::MidiMessage message;
 
     int x1, x2, y1, y2;
-    int xValue, yValue;
     int cc1Value, cc2Value, cc3Value, cc4Value;
-    int cc1Number{ 1 }, cc2Number{ 2 }, cc3Number{ 3 }, cc4Number{ 4 };
+    int cc1Number, cc2Number, cc3Number, cc4Number;
 
-    // Extract value from TreeState for each slider
-    xValue = pluginTreeState.getRawParameterValue("X")->load();
-    yValue = pluginTreeState.getRawParameterValue("Y")->load();
-    cc1Number = pluginTreeState.getRawParameterValue("CC1")->load();
-    cc2Number = pluginTreeState.getRawParameterValue("CC2")->load();
-    cc3Number = pluginTreeState.getRawParameterValue("CC3")->load();
-    cc4Number = pluginTreeState.getRawParameterValue("CC4")->load();
+    // Extract new value from TreeState
+    int newX = pluginTreeState.getRawParameterValue("X")->load();
+    int newY = pluginTreeState.getRawParameterValue("Y")->load();
 
-    // X Axis value goes from left to right (0 to 127)
-    x1 = 127 - xValue;
-    x2 = xValue;
+    // Send values only if the thumb have been dragged in the XYPad
+    /**************************************************************
+        X Axis value goes from left to right (0 to 127)
+        Y Axis value goes from  top to bottom (0 to 127)
+        For each corner, we take the lowest of X or Y
+    **************************************************************/
 
-    // Y Axis value goes from  top to bottom (0 to 127)
-    y1 = 127 - yValue;
-    y2 = yValue;
+    if (newX != currentX || newY != currentY)
+    {
+        currentX = newX;
+        currentY = newY;
 
-    // For each corner, we take the lowest of X or Y
-    cc1Value = juce::jmin<int>(x1, y1);
-    cc2Value = juce::jmin<int>(x2, y1);
-    cc3Value = juce::jmin<int>(x1, y2);
-    cc4Value = juce::jmin<int>(x2, y2);
+        cc1Number = pluginTreeState.getRawParameterValue("CC1")->load();
+        cc2Number = pluginTreeState.getRawParameterValue("CC2")->load();
+        cc3Number = pluginTreeState.getRawParameterValue("CC3")->load();
+        cc4Number = pluginTreeState.getRawParameterValue("CC4")->load();
 
-    message = juce::MidiMessage::controllerEvent(1, cc1Number, cc1Value);
-    midiMessages.addEvent(message, midiMessages.getLastEventTime());
+        x1 = 127 - currentX; 
+        x2 = currentX;
 
-    message = juce::MidiMessage::controllerEvent(1, cc2Number, cc2Value);
-    midiMessages.addEvent(message, midiMessages.getLastEventTime());
+        y1 = 127 - currentY; 
+        y2 = currentY;
 
-    message = juce::MidiMessage::controllerEvent(1, cc3Number, cc3Value);
-    midiMessages.addEvent(message, midiMessages.getLastEventTime());
+        cc1Value = juce::jmin<int>(x1, y1);
+        cc2Value = juce::jmin<int>(x2, y1);
+        cc3Value = juce::jmin<int>(x1, y2);
+        cc4Value = juce::jmin<int>(x2, y2);
+        
+        midiMessages.addEvent(juce::MidiMessage::controllerEvent(1, cc1Number, cc1Value), midiMessages.getLastEventTime());
+        midiMessages.addEvent(juce::MidiMessage::controllerEvent(1, cc2Number, cc2Value), midiMessages.getLastEventTime());
+        midiMessages.addEvent(juce::MidiMessage::controllerEvent(1, cc3Number, cc3Value), midiMessages.getLastEventTime());
+        midiMessages.addEvent(juce::MidiMessage::controllerEvent(1, cc4Number, cc4Value), midiMessages.getLastEventTime());
+    }
+    
 
-    message = juce::MidiMessage::controllerEvent(1, cc4Number, cc4Value);
-    midiMessages.addEvent(message, midiMessages.getLastEventTime());
+
+
 }
 
 void MidiPadAudioProcessor::valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property)
 {
-    pluginUpdated = true;
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout MidiPadAudioProcessor::createPluginParms()
@@ -94,12 +99,12 @@ juce::AudioProcessorValueTreeState::ParameterLayout MidiPadAudioProcessor::creat
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> parameters;
 
     // Range of audio  for each sliders
-    parameters.push_back(std::make_unique<juce::AudioParameterInt>("X", "x", 0, 127, 0));
-    parameters.push_back(std::make_unique<juce::AudioParameterInt>("Y", "y", 0, 127, 0));
-    parameters.push_back(std::make_unique<juce::AudioParameterInt>("CC1", "CC number 1", 1, 127, 21));
-    parameters.push_back(std::make_unique<juce::AudioParameterInt>("CC2", "CC number 2", 1, 127, 22));
-    parameters.push_back(std::make_unique<juce::AudioParameterInt>("CC3", "CC number 3", 1, 127, 23));
-    parameters.push_back(std::make_unique<juce::AudioParameterInt>("CC4", "CC number 4", 1, 127, 24));
+    parameters.push_back(std::make_unique<juce::AudioParameterInt>("X", "x", 0, 127, 64));
+    parameters.push_back(std::make_unique<juce::AudioParameterInt>("Y", "y", 0, 127, 64));
+    parameters.push_back(std::make_unique<juce::AudioParameterInt>("CC1", "CC number 1", 1, 127, 10));
+    parameters.push_back(std::make_unique<juce::AudioParameterInt>("CC2", "CC number 2", 1, 127, 11));
+    parameters.push_back(std::make_unique<juce::AudioParameterInt>("CC3", "CC number 3", 1, 127, 12));
+    parameters.push_back(std::make_unique<juce::AudioParameterInt>("CC4", "CC number 4", 1, 127, 13));
 
     // Return the parameters (vector)
     return { parameters.begin(), parameters.end() };
